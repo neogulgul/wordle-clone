@@ -7,7 +7,7 @@ let column = 0
 let guess = ""
 let win = false
 
-const words = ["horse", "train", "paste", "tooth", "fruit", "eight", "skate", "human", "climb", "chair"]
+const words = ["horse", "train", "paste", "tooth", "fruit", "eight", "skate", "human", "climb", "chair", "house"]
 const answer = words[Math.floor(Math.random()*words.length)].toUpperCase()
 
 function getRow() {
@@ -31,6 +31,7 @@ function checkGuess(guess, answer) {
     if (guess === answer) {
         win = true
         document.querySelector("h1").innerText = "You Won!"
+        document.querySelector("h2").style.color = "green"
     }
 }
 
@@ -57,6 +58,8 @@ document.body.onkeydown = function(event) {
 
             if (row === 6 && win === false) {
                 document.querySelector("h1").innerText = "You Lost :("
+                document.querySelector("h2").innerText = answer
+                document.querySelector("h2").style.color = "red"
             }
         } else if (keypress === "BACKSPACE") {
             if (column > 0) {
