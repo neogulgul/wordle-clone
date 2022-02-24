@@ -5,6 +5,7 @@ alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"
 let row = 0
 let column = 0
 let guess = ""
+let win = false
 
 const words = ["horse", "train", "paste", "tooth"]
 const answer = words[Math.floor(Math.random()*words.length)].toUpperCase()
@@ -19,7 +20,6 @@ function getColumn() {
 
 function checkGuess(guess, answer) {
     for (let i = 0; i < 5; i++) {
-        console.log(guess[i], answer[i])
         if (guess[i] === answer[i]) {
             wordLines.childNodes[1 + row * 2].childNodes[1 + i * 2].style.backgroundColor = "green"
         } else if (answer.includes(guess[i])) {
@@ -27,40 +27,43 @@ function checkGuess(guess, answer) {
         }
     }
     if (guess === answer) {
-        win()
+        win = true
+        document.querySelector("h1").innerText = "You Won!"
     }
-}
-
-function win() {
-    console.log("You won!!!")
 }
 
 document.body.onkeydown = function(event) {
     keypress = event.key.toUpperCase()
 
-    let currentRow = getRow()
-    let currentColumn = getColumn()
+    if (row < 6 && win === false) {
+        let currentRow = getRow()
+        let currentColumn = getColumn()
+    
+        if (alphabet.includes(keypress)) {
+            if (column < 5) {
+                guess += keypress
+                currentColumn.innerText = keypress
+                column += 1
+            }
+        } else if (keypress === "ENTER") {
+            if (column === 5) {
+                checkGuess(guess, answer)
+                console.log("n")
+                row += 1
+                column = 0
+                guess = ""
+            }
 
-    if (alphabet.includes(keypress)) {
-        if (column < 5) {
-            guess += keypress
-            currentColumn.innerText = keypress
-            column += 1
-        }
-    } else if (keypress === "ENTER") {
-        if (column === 5) {
-            console.log("you guessed")
-            checkGuess(guess, answer)
-            row += 1
-            column = 0
-            guess = ""
-        }
-    } else if (keypress === "BACKSPACE") {
-        if (column > 0) {
-            guess = guess.substring(0, guess.length - 1)
-            column -= 1
-            currentColumn = getColumn()
-            currentColumn.innerText = ""
+            if (row === 6 && win === false) {
+                document.querySelector("h1").innerText = "You Lost"
+            }
+        } else if (keypress === "BACKSPACE") {
+            if (column > 0) {
+                guess = guess.substring(0, guess.length - 1)
+                column -= 1
+                currentColumn = getColumn()
+                currentColumn.innerText = ""
+            }
         }
     }
 }
