@@ -26,7 +26,11 @@ main {
 h1 {
     font-size: 2em;
     text-transform: uppercase;
-    margin-bottom: 25px;
+}
+
+h2 {
+    margin: 25px 0;
+    letter-spacing: 5px;
 }
 
 .word-lines {
